@@ -1,4 +1,42 @@
 .item {
     width: 100%;
-    max-width: 370px;
+    max-width: 350px;
+}
+.modal-iframe{
+    width: 100%;
+    max-width: 447px;
+    height: 251px;
+}
+.move-reating::before {
+    content: "";
+    margin-right: 10px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-image: url("./images/star.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+.move-year::before {
+    content: "";
+    margin-right: 10px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-image: url("./images/calendar.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+.move-time::before {
+    content: "";
+    margin-right: 10px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-image: url("./images/clock\ \(1\).png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
 }
