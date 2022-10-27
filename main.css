@@ -1,6 +1,23 @@
 .item {
     width: 100%;
-    max-width: 350px;
+    max-width: 320px;
+}
+.close-btn{
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 9999;
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+    /* padding: 10px; */
+    border-radius: 50%;
+    background-color: yellow;
+    background-image: url("close.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 10px;
+    border: none;
 }
 .modal-iframe{
     width: 100%;

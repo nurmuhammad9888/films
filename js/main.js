@@ -1,10 +1,11 @@
 const template = document.querySelector(".template").content;
 const elList = document.querySelector(".move-list");
+const elSearchTitle =  document.querySelector(".serach-title")
 const movieFragmet = document.createDocumentFragment();
 
 // Modal
 const elModal = document.querySelector(".modal");
-const elModalTitle = elModal.querySelector(".nodal-title");
+const elModalTitle = elModal.querySelector(".modal-title");
 const elModalIframe = elModal.querySelector(".modal-iframe");
 const elModalRetang = elModal.querySelector(".modal-reating");
 const elModalYear = elModal.querySelector(".modal-year");
@@ -23,19 +24,23 @@ let timeFunc = function(time){
     return `${hour} hrs ${minut} min`
 }
 
-for (const move of movies.slice(0, 10)) {
-    const temClone = template.cloneNode(true);
-    temClone.querySelector(".move-img").src = `http://i3.ytimg.com/vi/${move.ytid}/mqdefault.jpg`
-    temClone.querySelector(".move-title").textContent = move.Title;
-    temClone.querySelector(".move-year").textContent = move.movie_year;
-    temClone.querySelector(".move-reating").textContent = move.imdb_rating;
-    temClone.querySelector(".move-time").textContent = timeFunc(move.runtime);
-    temClone.querySelector(".move-categores").textContent = move.Categories.split("|").join(", ");
-    temClone.querySelector(".btn-js").dataset.id = move.imdb_id;
-    
-    movieFragmet.appendChild(temClone);
+renderMovoi(movies.slice(0, 10))
+function renderMovoi(moveie){
+    elList.innerHTML = "";
+    moveie.forEach((move) => {
+        const temClone = template.cloneNode(true);
+        temClone.querySelector(".move-img").src = `http://i3.ytimg.com/vi/${move.ytid}/mqdefault.jpg`
+        temClone.querySelector(".move-title").textContent = move.Title;
+        temClone.querySelector(".move-year").textContent = move.movie_year;
+        temClone.querySelector(".move-reating").textContent = move.imdb_rating;
+        temClone.querySelector(".move-time").textContent = timeFunc(move.runtime);
+        temClone.querySelector(".move-categores").textContent = move.Categories.split("|").join(", ");
+        temClone.querySelector(".btn-js").dataset.id = move.imdb_id;
+        
+        movieFragmet.appendChild(temClone);
+    });
+    elList.appendChild(movieFragmet)
 }
-elList.appendChild(movieFragmet)
 
 function modalFunc(mov){
     elModalTitle.textContent = mov.Title;
@@ -47,7 +52,6 @@ function modalFunc(mov){
     elModalText.textContent = mov.summary
     elModalLink.href = `https://www.imdb.com/title/${mov.imdb_id}`
 } 
-
 elList.addEventListener("click",(evt) =>{
     if(evt.target.matches(".btn-js")){
         let moveId = evt.target.dataset.id;
@@ -56,32 +60,26 @@ elList.addEventListener("click",(evt) =>{
     }
 })
 elModal.addEventListener("hide.bs.modal", () =>{
-    elModalIframe.src = ""
+    elModalIframe.src = "";
 })
 
 elForm.addEventListener("submit", (evt) =>{
     evt.preventDefault();
-    let elInputValue = elFormInput.value.trim().toUpperCase(); 
+    let elInputValue = elFormInput.value.trim(); 
     
-    if(elInputValue != ""){
-        elList.innerHTML = null
-        
-        for (const kino of movies) {
-            const search = ""+kino.Title;
-            if(search.toUpperCase().indexOf(elInputValue) > -1){
-                const temClone = template.cloneNode(true);
-                temClone.querySelector(".move-img").src = `http://i3.ytimg.com/vi/${kino.ytid}/mqdefault.jpg`;
-                temClone.querySelector(".move-title").textContent = kino.Title;
-                temClone.querySelector(".move-year").textContent = kino.movie_year;
-                temClone.querySelector(".move-reating").textContent = kino.imdb_rating;
-                temClone.querySelector(".move-time").textContent = timeFunc(kino.runtime);
-                temClone.querySelector(".move-categores").textContent = kino.Categories.split("|").join(", ");
-                temClone.querySelector(".btn-js").dataset.id = kino.imdb_id;
-                
-                movieFragmet.appendChild(temClone)
-            }
-            elList.appendChild(movieFragmet)
-        }
+    let regEx = new RegExp(elInputValue, "gi");
+    // let regExY = new RegExp(elInputValue);
+    
+    const searchMove = movies.filter(el => String(el.Title).match(regEx))
+    
+    if(searchMove.length > 0){
+        renderMovoi(searchMove)
+    }else{
+        elList.textContent = "Bunday keno mavjud emas"
     }
-    
+    if(searchMoveYear.length > 0){
+        renderMovoi(searchMoveYear)
+    }else{
+        elList.textContent = "Bunday keno mavjud emas"
+    }
 })
