@@ -17,6 +17,8 @@ const elModalLink = elModal.querySelector(".modal-link");
 // Form
 const elForm = document.querySelector(".js-form");
 const elFormInput = document.querySelector(".search-input");
+const elSelect = document.querySelector(".select-js");
+const elSelectOption = document.querySelector(".select-option");
 
 let timeFunc = function(time){
     let hour = Math.floor(time / 60);
@@ -63,23 +65,55 @@ elModal.addEventListener("hide.bs.modal", () =>{
     elModalIframe.src = "";
 })
 
+// SELECT
+
+let selectArray = [];
+
+movies.forEach((el) => {
+    el.Categories.split("|").forEach((ell) =>{
+        if(! selectArray.includes(ell)){
+            selectArray.push(ell)
+        }
+    });
+})
+const fraSelect = document.createDocumentFragment()
+
+selectArray.forEach((element) =>{
+    let options = document.createElement("option");
+    options.textContent = element;
+    options.value = element;
+    fraSelect.appendChild(options);
+})
+elSelect.appendChild(fraSelect)
+
+
+// SEARCH
+
 elForm.addEventListener("submit", (evt) =>{
     evt.preventDefault();
     let elInputValue = elFormInput.value.trim(); 
+    let elSelectValue = elSelect.value
+    let optionValue = elSelectOption.value
     
     let regEx = new RegExp(elInputValue, "gi");
-    // let regExY = new RegExp(elInputValue);
+    let regExSelect = new RegExp(elSelectValue);
     
-    const searchMove = movies.filter(el => String(el.Title).match(regEx))
+    const searchMove = movies.filter(el => String(el.Title).match(regEx) && el.Categories.match(regExSelect) || String(el.Title).match(regEx) && elSelectValue === "all")
+    
+    // if(elSelectValue === "all"){
+    //     renderMovoi(movies.slice(0, 10))
+    // }
+    // const selectMove = movies.filter(el => String(el.Categories).match(regExSelect))
     
     if(searchMove.length > 0){
         renderMovoi(searchMove)
     }else{
         elList.textContent = "Bunday keno mavjud emas"
     }
-    if(searchMoveYear.length > 0){
-        renderMovoi(searchMoveYear)
-    }else{
-        elList.textContent = "Bunday keno mavjud emas"
-    }
+    
+    // if(selectMove.length > 0){
+    //     renderMovoi(selectMove)
+    // }
+    
 })
+

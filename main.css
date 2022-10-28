@@ -19,6 +19,14 @@
     background-size: 10px;
     border: none;
 }
+.select-js{
+    width: 100%;
+    max-width: 320px;
+}
+.search-input{
+    width: 100%;
+    max-width: 320px;
+}
 .modal-iframe{
     width: 100%;
     max-width: 447px;
