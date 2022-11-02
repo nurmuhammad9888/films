@@ -139,7 +139,7 @@ elForm.addEventListener("submit", (evt) =>{
     
     let sortSElectValue = elSortSelect.value;
     
-    let mov = movies.slice(0, 100)
+    let mov = movies.slice(0, 500)
     
     sortFunc(mov, sortSElectValue);
     
