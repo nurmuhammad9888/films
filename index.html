@@ -14,36 +14,52 @@
         <h1 class="text-center py-4 text-bg-secondary mx-2 mx-md-0">Movies</h1>
     </header>
     <!-- SITE HEADER FINISH -->
-<!-- SITE MAIN START -->
-<main class="site-main">
-    <!-- HERO SECTION START -->
-    <section class="hero">
-        <div class="container mx-auto ps-2 px-md-0">
-            <form class="js-form my-5 mx-auto" action="#" method="get" autocomplete="off">
-                <div class="row mx-auto w-100 justify-content-center">
-                    <div class="col-12 col-md-4 col-lg-3">
-                        <input class="form-control search-input" type="search" name="search" placeholder="Search">
+    <!-- SITE MAIN START -->
+    <main class="site-main">
+        <!-- HERO SECTION START -->
+        <section class="hero">
+            <div class="container mx-auto ps-2 px-md-0">
+                <form class="js-form my-5 mx-auto" action="#" method="get" autocomplete="off">
+                    <div class="row mx-auto w-100">
+                        <div class="col-12 col-md-4 col-lg-2">
+                            <input class="form-control search-input" type="search" name="search" placeholder="Search">
+                        </div>
+                        <div class="col-12 col-md-4 col-lg-2">
+                            <select class="select-js py-2 ms-lg-2 rounded mt-4 mt-md-0" name="select" id="">
+                                <option class="select-option" value="all">All</option>
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-4 col-lg-2">
+                            <input class="input-start-year  py-2 ms-lg-2 rounded mt-4 mt-md-0" type="number" name="year" min="2000" max="2018" placeholder="Start year">
+                        </div>
+                        <div class="col-12 col-md-4 col-lg-2 mt-3 mt-lg-0">
+                            <input class="input-end-year py-2 ms-lg-2 rounded mt-4 mt-md-0" type="number" name="year" min="2000" max="2018" placeholder="End year">
+                        </div>
+                        <div class="col-12 col-md-4 col-lg-2 mt-3 mt-lg-0">
+                            <select class="select-sort-js py-2 ms-lg-2 rounded mt-4 mt-md-0" name="sort" id="sort">
+                                <option class="select-sort" value="a-z">A-Z</option>
+                                <option class="select-sort" value="z-a">Z-A</option>
+                                <option class="select-sort" value="1-10">1-10</option>
+                                <option class="select-sort" value="10-1">10-1</option>
+                                <option class="select-sort" value="2000-2018">2000 - 2018</option>
+                                <option class="select-sort" value="2018-2000">2018 - 2000</option>
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-3 col-lg-1 mt-3 mt-lg-0">
+                            <button class="btn btn-danger ms-md-2 mt-4 mt-md-0" type="submit">Search</button>
+                        </div>
                     </div>
-                    <div class="col-12 col-md-4 col-lg-3">
-                        <select class="select-js py-2 ms-lg-2 rounded mt-4 mt-md-0" name="select" id="">
-                            <option class="select-option" value="all">All</option>
-                        </select>
-                    </div>
-                    <div class="col-12 col-md-3 col-lg-1">
-                        <button class="btn btn-danger ms-md-2 mt-4 mt-md-0" type="submit">Search</button>
-                    </div>
-                </div>
-            </form>
-            <p class="serach-title text-warning bg-danger w-75 mx-auto rounded">
-                
-            </p>
-            <div class="move-list row d-flex mt-5 justify-content-center">
-                <a href=""><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin: auto; display: block; shape-rendering: auto;" width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
-                    <path d="M10 50A40 40 0 0 0 90 50A40 42 0 0 1 10 50" fill="#e15b64" stroke="none">
-                        <animateTransform attributeName="transform" type="rotate" dur="1s" repeatCount="indefinite" keyTimes="0;1" values="0 50 51;360 50 51"></animateTransform>
-                    </path>
-                </svg>
-            </a>
+                </form>
+                <p class="serach-title text-warning bg-danger w-75 mx-auto rounded">
+                    
+                </p>
+                <div class="move-list row d-flex mt-5 justify-content-center">
+                    <a href=""><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin: auto; display: block; shape-rendering: auto;" width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+                        <path d="M10 50A40 40 0 0 0 90 50A40 42 0 0 1 10 50" fill="#e15b64" stroke="none">
+                            <animateTransform attributeName="transform" type="rotate" dur="1s" repeatCount="indefinite" keyTimes="0;1" values="0 50 51;360 50 51"></animateTransform>
+                        </path>
+                    </svg>
+                </a>
             </div>
         </div>
     </section>

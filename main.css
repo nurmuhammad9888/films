@@ -27,6 +27,18 @@
     width: 100%;
     max-width: 320px;
 }
+.input-start-year{
+    width: 100%;
+    max-width: 320px;
+}
+.input-end-year{
+    width: 100%;
+    max-width: 320px;
+}
+.select-sort-js{
+    width: 100%;
+    max-width: 320px;
+}
 .modal-iframe{
     width: 100%;
     max-width: 447px;
