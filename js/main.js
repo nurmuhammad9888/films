@@ -1,6 +1,9 @@
 const template = document.querySelector(".template").content;
 const elList = document.querySelector(".move-list");
-const elSearchTitle =  document.querySelector(".serach-title")
+const elSearchTitle =  document.querySelector(".serach-title");
+const elSaveList = document.querySelector(".save-list");
+const elSaveTemplate = document.querySelector(".template-save").content;
+const elSaveListBtn = document.querySelector(".btn-modal-save");
 const movieFragmet = document.createDocumentFragment();
 
 // Modal
@@ -29,24 +32,52 @@ let timeFunc = function(time){
     let minut = Math.floor(time % 60)
     return `${hour} hrs ${minut} min`
 }
+const localSave = JSON.parse(localStorage.getItem("bookmark"))
+const saveArray = localSave || [];
 
-
-function renderMovoi(moveie){
+function renderMovoi(moveie, regex = ""){
     elList.innerHTML = "";
+
     moveie.forEach((move) => {
         const temClone = template.cloneNode(true);
         temClone.querySelector(".move-img").src = move.poster_md;
-        temClone.querySelector(".move-title").textContent = move.title;
+        
+        if(regex.source != "(?:)" && regex){
+        temClone.querySelector(".move-title").innerHTML = move.title.replace(regex,
+            `<mark class="bg-warning">${regex.source.toLowerCase()}</mark>`);
+        }else{
+            temClone.querySelector(".move-title").textContent = move.title;
+        }
         temClone.querySelector(".move-year").textContent = move.movie_year;
         temClone.querySelector(".move-reating").textContent = move.imdb_rating;
         temClone.querySelector(".move-time").textContent = timeFunc(move.runtime);
         temClone.querySelector(".move-categores").textContent = move.categories.join(", ");
         temClone.querySelector(".btn-js").dataset.id = move.imdb_id;
+        temClone.querySelector(".btn-save").dataset.id = move.imdb_id;
         
         movieFragmet.appendChild(temClone);
     });
     elList.appendChild(movieFragmet)
 }
+
+// Bokmmark 
+function saveMove(moveie){
+    elSaveList.innerHTML = "";
+    moveie.forEach((move) => {
+        const temClone = elSaveTemplate.cloneNode(true);
+        temClone.querySelector(".move-img").src = move.poster_md;
+        temClone.querySelector(".move-title").textContent = move.title;
+        temClone.querySelector(".move-year").textContent = move.movie_year;
+        temClone.querySelector(".move-reating").textContent = move.imdb_rating;
+        temClone.querySelector(".move-time").textContent = timeFunc(move.runtime);
+        temClone.querySelector(".btn-del").dataset.id = move.imdb_id;
+        
+        movieFragmet.appendChild(temClone);
+    });
+    elSaveList.appendChild(movieFragmet)
+    localStorage.setItem("bookmark", JSON.stringify(saveArray))
+}
+saveMove(saveArray)
 
 function modalFunc(mov){
     elModalTitle.textContent = mov.title;
@@ -64,7 +95,30 @@ elList.addEventListener("click",(evt) =>{
         let moveFind = movies.find((movv) => movv.imdb_id === moveId);
         modalFunc(moveFind)
     }
+    if(evt.target.matches(".btn-save")){
+        let saveId = evt.target.dataset.id;
+        let saveFind = movies.find((item) => item.imdb_id === saveId);
+        if(!saveArray.includes(saveFind)){
+            saveArray.push(saveFind);
+            saveMove(saveArray)
+        }
+        localStorage.setItem("bookmark", JSON.stringify(saveArray))
+    }
 })
+
+elSaveList.addEventListener("click",(evt) =>{
+    if(evt.target.matches(".btn-del")){
+        let saveId = evt.target.dataset.id;
+        let saveFind = saveArray.findIndex((elem) => elem.imdb_id === saveId);
+        saveArray.splice(saveFind, 1);
+        saveMove(saveArray)
+        localStorage.setItem("bookmark", JSON.stringify(saveArray))
+    }
+})
+elSaveListBtn.addEventListener("click" , () =>{
+    elSaveList.classList.toggle("save-list-show")
+})
+
 elModal.addEventListener("hide.bs.modal", () =>{
     elModalIframe.src = "";
 })
@@ -88,7 +142,6 @@ selectArray.forEach((element) =>{
     fraSelect.appendChild(options);
 })
 elSelect.appendChild(fraSelect)
-
 
 // SORT
 function sortFunc(arrays,value){
@@ -130,7 +183,6 @@ function sortFunc(arrays,value){
     }
 }
 
-
 // SEARCH
 elForm.addEventListener("submit", (evt) =>{
     evt.preventDefault();
@@ -147,15 +199,19 @@ elForm.addEventListener("submit", (evt) =>{
     let elSearchEndvalue = elSearchEnd.value.trim()
     
     let regEx = new RegExp(elInputValue, "gi");
-    let regExSelect = new RegExp(elSelectValue);
+    // let regExSelect = new RegExp(elSelectValue);
     
-    const searchMove = mov.filter(el => (String(el.title).match(regEx) && String(el.categories).match(regExSelect) || (String(el.title).match(regEx) && elSelectValue === "all")) && ((elSearchStartvalue <= el.movie_year && elSearchEndvalue >= el.movie_year) || (elSearchStartvalue == "" && elSearchEndvalue >= el.movie_year) || (elSearchStartvalue <= el.movie_year && elSearchEndvalue == "") || (elSearchStartvalue == "" && elSearchEndvalue == "")));
+    const searchMove = mov.filter(el => {
+        // const inputFilter = (String(el.title).match(regEx) && el.categories.match(regExSelect) || elSelectValue === "all") && ((elSearchStartvalue <= el.movie_year && elSearchEndvalue >= el.movie_year) || (elSearchStartvalue == "" && elSearchEndvalue >= el.movie_year) || (elSearchStartvalue <= el.movie_year && elSearchEndvalue == "") || (elSearchStartvalue == "" && elSearchEndvalue == ""));
+        
+        const inputFilter = (String(el.title).match(regEx) && elSelectValue === "all" || String(el.title).match(regEx) && el.categories.includes(elSelectValue)) && ((elSearchStartvalue <= el.movie_year && elSearchEndvalue >= el.movie_year) || (elSearchStartvalue == "" && elSearchEndvalue >= el.movie_year) || (elSearchStartvalue <= el.movie_year && elSearchEndvalue == ""));
+        return inputFilter
+    })
     
     if(searchMove.length > 0){
-        renderMovoi(searchMove)
+        renderMovoi(searchMove,regEx)
     }else{
         elList.textContent = "Bunday keno mavjud emas";
     }
-    
 })
 renderMovoi(movies.slice(0, 10))
