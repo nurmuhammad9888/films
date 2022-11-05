@@ -191,9 +191,9 @@ elForm.addEventListener("submit", (evt) =>{
     
     let sortSElectValue = elSortSelect.value;
     
-    let mov = movies.slice(0, 500)
+    // let mov = movies.slice(0, 500)
     
-    sortFunc(mov, sortSElectValue);
+    sortFunc(movies, sortSElectValue);
     
     let elSearchStartvalue = elSearchStart.value.trim()
     let elSearchEndvalue = elSearchEnd.value.trim()
@@ -201,7 +201,7 @@ elForm.addEventListener("submit", (evt) =>{
     let regEx = new RegExp(elInputValue, "gi");
     // let regExSelect = new RegExp(elSelectValue);
     
-    const searchMove = mov.filter(el => {
+    const searchMove = movies.filter(el => {
         // const inputFilter = (String(el.title).match(regEx) && el.categories.match(regExSelect) || elSelectValue === "all") && ((elSearchStartvalue <= el.movie_year && elSearchEndvalue >= el.movie_year) || (elSearchStartvalue == "" && elSearchEndvalue >= el.movie_year) || (elSearchStartvalue <= el.movie_year && elSearchEndvalue == "") || (elSearchStartvalue == "" && elSearchEndvalue == ""));
         
         const inputFilter = (String(el.title).match(regEx) && elSelectValue === "all" || String(el.title).match(regEx) && el.categories.includes(elSelectValue)) && ((elSearchStartvalue <= el.movie_year && elSearchEndvalue >= el.movie_year) || (elSearchStartvalue == "" && elSearchEndvalue >= el.movie_year) || (elSearchStartvalue <= el.movie_year && elSearchEndvalue == ""));
